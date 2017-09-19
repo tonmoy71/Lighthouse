@@ -1,0 +1,95 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+//apply plugin: 'io.fabric'
+//apply plugin: 'deploygate'
+
+android {
+  compileSdkVersion 25
+  buildToolsVersion "26.0.1"
+  defaultConfig {
+    applicationId "io.github.tonmoy71.lighthouse"
+    minSdkVersion 21
+    targetSdkVersion 25
+    versionCode 1
+    versionName "1.0"
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+  }
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+  packagingOptions {
+    exclude 'META-INF/rxjava.properties'
+  }
+}
+
+dependencies {
+  compile fileTree(dir: 'libs', include: ['*.jar'])
+
+  // Support Library
+  compile "com.android.support:appcompat-$support_version"
+  compile "com.android.support:design:$support_design_version"
+  compile "com.android.support:recyclerview-$support_version"
+  compile "com.android.support.constraint:constraint-layout:$constraint_layout_version"
+  compile "com.android.support:cardview-$support_version"
+
+  // Retrofit
+  compile "com.squareup.retrofit2:retrofit:$retrofit_version"
+  compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
+  compile "com.squareup.retrofit2:adapter-rxjava:$retrofit_version"
+  compile("com.squareup.retrofit2:converter-simplexml:$retrofit_version") {
+    exclude group: 'xpp3', module: 'xpp3'
+    exclude group: 'stax', module: 'stax-api'
+    exclude group: 'stax', module: 'stax'
+  }
+  compile "com.squareup.okhttp3:logging-interceptor:$okhttp_logging_intercepter_version"
+
+  // Glide
+  compile "com.github.bumptech.glide:glide:$glide_version"
+
+  // RxJava and RxAndroid
+  compile "io.reactivex.rxjava2:rxjava:$rxjava_version"
+  compile "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+
+  // RxBinding
+  compile "com.jakewharton.rxbinding2:rxbinding:$rxbinding_version"
+  compile "com.jakewharton.rxbinding2:rxbinding-support-v4:$rxbinding_version"
+  compile "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxbinding_version"
+  compile "com.jakewharton.rxbinding2:rxbinding-design:$rxbinding_version"
+  compile "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:$rxbinding_version"
+
+  // Butterknife
+  compile "com.jakewharton:butterknife:$butterknife_version"
+  annotationProcessor "com.jakewharton:butterknife-compiler:$butterknife_version"
+
+  // Dagger
+  compile "com.google.dagger:dagger:$dagger_version"
+  annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
+
+  // Timber
+  compile "com.jakewharton.timber:timber:$timber_version"
+
+  // Calligraphy
+  compile "uk.co.chrisjenx:calligraphy:$calligraphy_version"
+
+  // Crashlytics
+  //compile("com.crashlytics.sdk.android:crashlytics:$crashlytics_version") {
+  //  transitive = true;
+  //}
+
+  // LeakCanary
+  debugCompile "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
+  releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanary_version"
+  provided 'javax.annotation:jsr250-api:1.0'
+
+  // Deploygate
+  //compile "com.deploygate:sdk:$deploygate_version"
+
+  // Testing
+  androidTestCompile("com.android.support.test.espresso:espresso-core:$espresso_version", {
+    exclude group: 'com.android.support', module: 'support-annotations'
+  })
+  testCompile "junit:junit:$junit_version"
+}
