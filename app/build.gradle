@@ -15,13 +15,23 @@ android {
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
   buildTypes {
+    debug {
+      buildConfigField("String", "GOODREADS_API_KEY", "\"" + GOODREADS_API_KEY + "\"")
+    }
     release {
+      buildConfigField("String", "GOODREADS_API_KEY", "\"" + GOODREADS_API_KEY + "\"")
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
+
   packagingOptions {
     exclude 'META-INF/rxjava.properties'
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
   }
 }
 
@@ -49,16 +59,15 @@ dependencies {
   // Glide
   compile "com.github.bumptech.glide:glide:$glide_version"
 
-  // RxJava and RxAndroid
-  compile "io.reactivex.rxjava2:rxjava:$rxjava_version"
-  compile "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+  compile "io.reactivex:rxjava:$rxjava_version"
+  compile "io.reactivex:rxandroid:$rxandroid_version"
 
   // RxBinding
-  compile "com.jakewharton.rxbinding2:rxbinding:$rxbinding_version"
-  compile "com.jakewharton.rxbinding2:rxbinding-support-v4:$rxbinding_version"
-  compile "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxbinding_version"
-  compile "com.jakewharton.rxbinding2:rxbinding-design:$rxbinding_version"
-  compile "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:$rxbinding_version"
+  compile "com.jakewharton.rxbinding:rxbinding:$rxbinding_version"
+  compile "com.jakewharton.rxbinding:rxbinding-support-v4:$rxbinding_version"
+  compile "com.jakewharton.rxbinding:rxbinding-appcompat-v7:$rxbinding_version"
+  compile "com.jakewharton.rxbinding:rxbinding-design:$rxbinding_version"
+  compile "com.jakewharton.rxbinding:rxbinding-recyclerview-v7:$rxbinding_version"
 
   // Butterknife
   compile "com.jakewharton:butterknife:$butterknife_version"
