@@ -1,6 +1,7 @@
 package io.github.tonmoy71.lighthouse.ui.search;
 
-import io.github.tonmoy71.lighthouse.data.network.SearchApi;
+import io.github.tonmoy71.lighthouse.data.DataManager;
+import io.github.tonmoy71.lighthouse.data.network.model.BookSearchRequest;
 import io.github.tonmoy71.lighthouse.ui.base.BasePresenter;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,17 +16,21 @@ import timber.log.Timber;
 
 public class SearchPresenter extends BasePresenter<SearchView> {
 
-  private final SearchApi searchApi;
+  private final DataManager dataManager;
 
-  @Inject public SearchPresenter(SearchApi api) {
-    searchApi = api;
+  @Inject SearchPresenter(DataManager dataManager) {
+    this.dataManager = dataManager;
   }
 
   public void searchBooks(String query) {
     Map<String, String> params = new HashMap<>();
     params.put("q", query);
     params.put("page", "1");    // TODO: 28-Sep-17 change later
-    searchApi.searchBook(params)
+
+    BookSearchRequest request = new BookSearchRequest();
+    request.setOptions(params);
+
+    dataManager.searchBook(request)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(searchResponse -> {

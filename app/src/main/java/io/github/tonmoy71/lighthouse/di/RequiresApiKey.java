@@ -8,5 +8,5 @@ import javax.inject.Qualifier;
  * Created by tonmoy on 27-Sep-17.
  */
 
-@Qualifier @Retention(RetentionPolicy.RUNTIME) public @interface RequiresApi {
+@Qualifier @Retention(RetentionPolicy.RUNTIME) public @interface RequiresApiKey {
 }

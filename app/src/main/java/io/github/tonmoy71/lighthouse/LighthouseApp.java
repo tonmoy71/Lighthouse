@@ -3,7 +3,7 @@ package io.github.tonmoy71.lighthouse;
 import android.app.Application;
 import io.github.tonmoy71.lighthouse.di.component.AppComponent;
 import io.github.tonmoy71.lighthouse.di.component.DaggerAppComponent;
-import io.github.tonmoy71.lighthouse.di.module.AppModule;
+import io.github.tonmoy71.lighthouse.di.module.ApplicationModule;
 import io.github.tonmoy71.lighthouse.di.module.NetworkModule;
 import timber.log.Timber;
 
@@ -25,8 +25,7 @@ public class LighthouseApp extends Application {
       Timber.plant(new Timber.DebugTree());
     }
 
-    component = DaggerAppComponent.builder()
-        .appModule(new AppModule(this))
+    component = DaggerAppComponent.builder().applicationModule(new ApplicationModule(this))
         .networkModule(new NetworkModule())
         .build();
   }

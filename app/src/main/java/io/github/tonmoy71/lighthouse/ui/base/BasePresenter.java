@@ -5,6 +5,7 @@ package io.github.tonmoy71.lighthouse.ui.base;
  */
 
 public abstract class BasePresenter<V> {
+
   private V view;
 
   public void attachView(V view) {
