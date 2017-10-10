@@ -34,5 +34,8 @@ function copyEnvVarsToGradleProperties {
 
         echo "Writing GOODREADS_API_KEY to gradle.properties..."
         echo "GOODREADS_API_KEY=$GOODREADS_API_KEY_ENV_VAR" >> $GRADLE_PROPERTIES
+
+        echo "Writing GOODREADS_API_SECRET to gradle.properties..."
+        echo "GOODREADS_API_SECRET=$GOODREADS_API_SECRET_ENV_VAR" >> $GRADLE_PROPERTIES
     fi
 }

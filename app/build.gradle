@@ -15,14 +15,16 @@ android {
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
   buildTypes {
-    debug {
-      buildConfigField("String", "GOODREADS_API_KEY", "\"" + GOODREADS_API_KEY + "\"")
-    }
+    debug {}
     release {
-      buildConfigField("String", "GOODREADS_API_KEY", "\"" + GOODREADS_API_KEY + "\"")
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
+  }
+
+  buildTypes.each {
+    it.buildConfigField("String", "GOODREADS_API_KEY", "\"" + GOODREADS_API_KEY + "\"")
+    it.buildConfigField("String", "GOODREADS_API_SECRET", "\"" + GOODREADS_API_SECRET + "\"")
   }
 
   packagingOptions {
@@ -91,14 +93,18 @@ dependencies {
   // LeakCanary
   debugCompile "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
   releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanary_version"
-  provided 'javax.annotation:jsr250-api:1.0'
 
   // Deploygate
   //compile "com.deploygate:sdk:$deploygate_version"
+
+  // Scribe OAuth Library
+  compile "com.github.scribejava:scribejava-apis:$scribe_version"
 
   // Testing
   androidTestCompile("com.android.support.test.espresso:espresso-core:$espresso_version", {
     exclude group: 'com.android.support', module: 'support-annotations'
   })
   testCompile "junit:junit:$junit_version"
+  compile 'com.android.support.constraint:constraint-layout:1.0.2'
+  provided 'javax.annotation:jsr250-api:1.0'
 }

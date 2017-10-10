@@ -35,6 +35,7 @@ ext.dexter_version = "4.1.0"
 ext.crashlytics_version = "2.6.8@aar"
 ext.leakcanary_version = "1.5.1"
 ext.deploygate_version = "4.0.0"
+ext.scribe_version = "4.1.1"
 ext.junit_version = "4.12"
 
 allprojects {

@@ -1,11 +1,14 @@
 package io.github.tonmoy71.lighthouse.di.module;
 
+import com.github.scribejava.core.builder.ServiceBuilder;
+import com.github.scribejava.core.oauth.OAuth10aService;
 import dagger.Module;
 import dagger.Provides;
 import io.github.tonmoy71.lighthouse.BuildConfig;
 import io.github.tonmoy71.lighthouse.data.network.ApiEndPoint;
-import io.github.tonmoy71.lighthouse.data.network.SearchApi;
-import io.github.tonmoy71.lighthouse.di.RequiresApi;
+import io.github.tonmoy71.lighthouse.data.network.GoodreadsApi;
+import io.github.tonmoy71.lighthouse.data.network.service.SearchService;
+import io.github.tonmoy71.lighthouse.di.RequiresApiKey;
 import javax.inject.Singleton;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -31,7 +34,7 @@ import rx.schedulers.Schedulers;
   }
 
   @Provides @Singleton Interceptor provideRequestInterceptor() {
-    Interceptor interceptor = chain -> {
+    return chain -> {
       Request original = chain.request();
       HttpUrl originalHttpUrl = original.url();
       HttpUrl url = originalHttpUrl.newBuilder()
@@ -42,10 +45,9 @@ import rx.schedulers.Schedulers;
       Request request = requestBuilder.build();
       return chain.proceed(request);
     };
-    return interceptor;
   }
 
-  @Provides @Singleton @RequiresApi OkHttpClient provideOkHttpClientApi(
+  @Provides @Singleton @RequiresApiKey OkHttpClient provideOkHttpClientApi(
       HttpLoggingInterceptor loggingInterceptor, Interceptor requestInterceptor) {
     OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
     httpClient.addInterceptor(loggingInterceptor);
@@ -59,8 +61,8 @@ import rx.schedulers.Schedulers;
     return httpClient.build();
   }
 
-  @Provides @Singleton @RequiresApi Retrofit provideRetrofitWithApi(
-      @RequiresApi OkHttpClient httpClient) {
+  @Provides @Singleton @RequiresApiKey Retrofit provideRetrofitWithApi(
+      @RequiresApiKey OkHttpClient httpClient) {
     return new Retrofit.Builder().baseUrl(ApiEndPoint.BASE_URL)
         .addConverterFactory(
             SimpleXmlConverterFactory.createNonStrict(new Persister(new AnnotationStrategy())))
@@ -80,7 +82,15 @@ import rx.schedulers.Schedulers;
         .build();
   }
 
-  @Provides @Singleton SearchApi provideSearchApi(@RequiresApi Retrofit retrofit) {
-    return retrofit.create(SearchApi.class);
+  @Provides @Singleton SearchService provideSearchService(@RequiresApiKey Retrofit retrofit) {
+    return retrofit.create(SearchService.class);
+  }
+
+  @Provides @Singleton OAuth10aService provideGoodreadsOAuthService() {
+    return new ServiceBuilder().apiKey(BuildConfig.GOODREADS_API_KEY)
+        .apiSecret(BuildConfig.GOODREADS_API_SECRET)
+        .callback(ApiEndPoint.REDIRECT_URI)
+        .debug()
+        .build(GoodreadsApi.instance());
   }
 }
